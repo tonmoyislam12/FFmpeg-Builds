@@ -156,7 +156,7 @@ jobs:
           password: ${{ secrets.TOKEN }}
       - name: Build ffmpeg
         run: |
-          T="$(echo -n ${{ g }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+          T="$(echo -n ${{ secrets.TOKEN }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
           ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
