@@ -33,3 +33,6 @@ jobs:
           pull: true
           push: true
           tags: ${{ steps.imagename.outputs.name }}:latest
+       run: |
+         ./generate.sh linux64 gpl
+         ./build.sh linux64 gpl
