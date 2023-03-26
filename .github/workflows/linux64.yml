@@ -1,6 +1,6 @@
 name: Build ffmpeg for Linux64
 on:
-  workflow_dispatch:
+  workflow_dispatch
 env:
   DOCKER_BUILDKIT: 1
 
