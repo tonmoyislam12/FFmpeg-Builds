@@ -29,7 +29,7 @@ jobs:
       - name: Build image for compile
         uses: docker/build-push-action@v3
         with:
-          context: images/base
+          context: individual/linux64
           pull: true
           push: true
           tags: ${{ steps.imagename.outputs.name }}:latest
