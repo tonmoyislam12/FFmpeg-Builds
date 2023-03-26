@@ -33,6 +33,7 @@ jobs:
           pull: true
           push: true
           tags: ${{ steps.imagename.outputs.name }}:latest
+      - name: Build ffmpeg
         run: |
           ./generate.sh linux64 gpl
           ./build.sh linux64 gpl
