@@ -25,7 +25,7 @@ RUN --mount=src=../../images/base/,dst=/input \
     for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done
 
 
-RUN --mount=src=ct-ng-config,dst=/.config \
+RUN --mount=src=../../images/base-linux64/ct-ng-config,dst=/.config \
     git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
     ./bootstrap && \
     ./configure --enable-local && \
@@ -57,10 +57,10 @@ RUN \
         -delete && \
     mkdir /opt/ffbuild
 
-ADD toolchain.cmake /toolchain.cmake
-ADD cross.meson /cross.meson
+ADD ../../images/base-linux64/toolchain.cmake /toolchain.cmake
+ADD ../../images/base-linux64/cross.meson /cross.meson
 
-ADD gen-implib.sh /usr/bin/gen-implib
+ADD ../../images/base-linux64/gen-implib.sh /usr/bin/gen-implib
 RUN git clone --filter=blob:none --depth=1 https://github.com/yugr/Implib.so /opt/implib
 
 ENV FFBUILD_TOOLCHAIN=x86_64-ffbuild-linux-gnu
