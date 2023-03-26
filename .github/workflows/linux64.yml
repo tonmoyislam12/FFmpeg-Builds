@@ -32,3 +32,4 @@ jobs:
           context: images/base
           pull: true
           push: true
+          tags: ${{ steps.imagename.outputs.name }}:latest
