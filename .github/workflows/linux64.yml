@@ -35,10 +35,20 @@ jobs:
           tags: ${{ steps.imagename.outputs.name }}:latest
           cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
           cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
-      - name: Build ffmpeg
+      - name: Build ffmpeg dockerfile
         run: |
            bash ./generate.sh linux64 gpl
-           bash ./build.sh linux64 gpl
+      - name: Build ffmpeg image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          pull: true
+          push: true
+          tags: ${{ steps.imagename.outputs.name }}:latest2
+      - name: Build ffmpeg
+        run: |
+          T="$(echo -n ${{ secrets.TOKEN }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
+          ./build.sh linux64 gpl
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
