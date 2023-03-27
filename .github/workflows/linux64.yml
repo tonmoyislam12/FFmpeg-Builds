@@ -29,7 +29,7 @@ jobs:
       - name: Build target base image
         uses: docker/build-push-action@v3
         with:
-          context: images/base
+          context: individual/
           pull: true
           push: true
           tags: ${{ steps.imagename.outputs.name }}:latest
