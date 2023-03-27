@@ -26,14 +26,21 @@ jobs:
         run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/linux64" >> $GITHUB_OUTPUT
       - name: Stop Commands
         run: T="$(echo -n ${{ secrets.TOKEN }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
-      - name: Build target base image
+      - name: Build ffmpeg image
         uses: docker/build-push-action@v3
         with:
           context: individual/
           pull: true
           push: true
           tags: ${{ steps.imagename.outputs.name }}:latest
+          cache-to: type=registry,mode=max,ref=${{ steps.imagename.outputs.name }}:cache
+          cache-from: type=registry,ref=${{ steps.imagename.outputs.name }}:cache
       - name: Build ffmpeg
         run: |
            bash ./generate.sh linux64 gpl
            bash ./build.sh linux64 gpl
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ffmpeg
+          path: artifacts/*
